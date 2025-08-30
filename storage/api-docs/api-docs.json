@@ -1,0 +1,614 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API",
+        "description": "Public API",
+        "version": "1.0.0"
+    },
+    "paths": {
+        "/api/health": {
+            "get": {
+                "tags": [
+                    "Health"
+                ],
+                "summary": "Healthcheck",
+                "operationId": "f68159ef6bbd0020e1c07f1e3c80c963",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "status": {
+                                            "type": "string",
+                                            "example": "ok"
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/register": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "f6c1d35ccb4842dfadb5e51bc148e957",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "name": {
+                                        "type": "string"
+                                    },
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password",
+                                        "minLength": 8
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/login": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "ecad9d44e9c8349a24c9d1837d3a8afb",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "properties": {
+                                    "email": {
+                                        "type": "string",
+                                        "format": "email"
+                                    },
+                                    "password": {
+                                        "type": "string",
+                                        "format": "password"
+                                    }
+                                },
+                                "type": "object"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                }
+            }
+        },
+        "/api/v1/auth/me": {
+            "get": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "7936d798ffaf2121cf884af44bf6ffc7",
+                "responses": {
+                    "200": {
+                        "description": "OK"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/auth/logout": {
+            "post": {
+                "tags": [
+                    "Auth"
+                ],
+                "operationId": "d9948a8a4792f9c9a87e025b4adb285c",
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/people/{person}/contacts": {
+            "get": {
+                "tags": [
+                    "Contacts"
+                ],
+                "operationId": "54f945de9d7e8bc64e9fa54ffccee7a7",
+                "parameters": [
+                    {
+                        "name": "person",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/PersonContact"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "Contacts"
+                ],
+                "operationId": "4673948b8619417aba9c099245699dac",
+                "parameters": [
+                    {
+                        "name": "person",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonContact"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/people/{person}/contacts/{contact}": {
+            "delete": {
+                "tags": [
+                    "Contacts"
+                ],
+                "operationId": "e261afb8bbec9dcc369e3bcbbc881693",
+                "parameters": [
+                    {
+                        "name": "person",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "contact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "Contacts"
+                ],
+                "operationId": "989aeda151c1e6495313456d4309a1ee",
+                "parameters": [
+                    {
+                        "name": "person",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    },
+                    {
+                        "name": "contact",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/ContactUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/PersonContact"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/people/{person}/emails/send-welcome": {
+            "post": {
+                "tags": [
+                    "Contacts",
+                    "Email"
+                ],
+                "operationId": "025346f815b4c03b381b57206d82f8cc",
+                "parameters": [
+                    {
+                        "name": "person",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "202": {
+                        "description": "Accepted",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "properties": {
+                                        "sent": {
+                                            "type": "integer",
+                                            "example": 2
+                                        }
+                                    },
+                                    "type": "object"
+                                }
+                            }
+                        }
+                    }
+                },
+                "security": [
+                    {
+                        "sanctum": []
+                    }
+                ]
+            }
+        },
+        "/api/v1/people": {
+            "get": {
+                "tags": [
+                    "People"
+                ],
+                "operationId": "a5141738694c9b7ad5c101e412f1848f",
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "array",
+                                    "items": {
+                                        "$ref": "#/components/schemas/Person"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "post": {
+                "tags": [
+                    "People"
+                ],
+                "operationId": "01b88d27d070ba299711f24e2db85bd8",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PersonCreateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "201": {
+                        "description": "Created",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Person"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/api/v1/people/{id}": {
+            "get": {
+                "tags": [
+                    "People"
+                ],
+                "operationId": "ad0c83614cbc25c3abd4c2d55155604c",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Person"
+                                }
+                            }
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "tags": [
+                    "People"
+                ],
+                "operationId": "34f3d9bb1ecb2b5f6b0630cbe17b12d1",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "responses": {
+                    "204": {
+                        "description": "No Content"
+                    }
+                }
+            },
+            "patch": {
+                "tags": [
+                    "People"
+                ],
+                "operationId": "a618f77fed590cc68010f4e1febcafc5",
+                "parameters": [
+                    {
+                        "name": "id",
+                        "in": "path",
+                        "required": true,
+                        "schema": {
+                            "type": "integer"
+                        }
+                    }
+                ],
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/PersonUpdateRequest"
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "$ref": "#/components/schemas/Person"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "PersonContact": {
+                "properties": {
+                    "id": {
+                        "type": "integer"
+                    },
+                    "type": {
+                        "type": "string",
+                        "example": "email"
+                    },
+                    "value": {
+                        "type": "string",
+                        "example": "user@example.com"
+                    },
+                    "is_primary": {
+                        "type": "boolean"
+                    }
+                },
+                "type": "object"
+            },
+            "ContactCreateRequest": {
+                "required": [
+                    "type",
+                    "value"
+                ],
+                "properties": {
+                    "type": {
+                        "type": "string",
+                        "example": "email"
+                    },
+                    "value": {
+                        "type": "string",
+                        "example": "user@example.com"
+                    },
+                    "is_primary": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "ContactUpdateRequest": {
+                "properties": {
+                    "value": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "is_primary": {
+                        "type": "boolean",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            },
+            "Person": {
+                "required": [
+                    "id",
+                    "first_name",
+                    "last_name"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "integer",
+                        "format": "int64",
+                        "example": 1
+                    },
+                    "first_name": {
+                        "type": "string",
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "example": "Doe"
+                    }
+                },
+                "type": "object"
+            },
+            "PersonCreateRequest": {
+                "required": [
+                    "first_name",
+                    "last_name"
+                ],
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "John"
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "maxLength": 255,
+                        "example": "Doe"
+                    }
+                },
+                "type": "object"
+            },
+            "PersonUpdateRequest": {
+                "properties": {
+                    "first_name": {
+                        "type": "string",
+                        "nullable": true
+                    },
+                    "last_name": {
+                        "type": "string",
+                        "nullable": true
+                    }
+                },
+                "type": "object"
+            }
+        },
+        "securitySchemes": {
+            "sanctum": {
+                "type": "http",
+                "bearerFormat": "Token",
+                "scheme": "bearer"
+            }
+        }
+    },
+    "tags": [
+        {
+            "name": "Health",
+            "description": "Health"
+        },
+        {
+            "name": "Auth",
+            "description": "Auth"
+        },
+        {
+            "name": "Contacts",
+            "description": "Contacts"
+        },
+        {
+            "name": "Email",
+            "description": "Email"
+        },
+        {
+            "name": "People",
+            "description": "People"
+        }
+    ]
+}

@@ -1,0 +1,2 @@
+
+Witamy użytkownika {{ $name }}

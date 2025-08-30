@@ -1,0 +1,12 @@
+includes:
+  - vendor/nunomaduro/larastan/extension.neon
+
+parameters:
+  paths:
+    - app
+    - modules
+  level: 7
+  inferPrivatePropertyTypeFromConstructor: true
+  tmpDir: build/phpstan
+  scanFiles:
+    - bootstrap/app.php

@@ -1,0 +1,17 @@
+{
+    "name": "modules/auth",
+    "description": "Auth feature module for laravel-api",
+    "type": "library",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Auth\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Auth\\AuthServiceProvider"
+            ]
+        }
+    }
+}

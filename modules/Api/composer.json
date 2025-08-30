@@ -1,0 +1,18 @@
+{
+    "name": "modules/api",
+    "description": "HTTP layer (REST API) for laravel-api",
+    "type": "library",
+    "version": "0.1.0",
+    "autoload": {
+        "psr-4": {
+            "Modules\\Api\\": "src/"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Modules\\Api\\ApiServiceProvider"
+            ]
+        }
+    }
+}

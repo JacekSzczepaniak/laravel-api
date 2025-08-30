@@ -1,0 +1,49 @@
+services:
+    app-api:
+        build:
+            context: .
+            dockerfile: Dockerfile
+        image: ${APP_IMAGE:-app-api}
+        volumes:
+            - ./:/var/www/html
+        depends_on:
+            - mysql-api
+            - redis-api
+        environment:
+            PHP_IDE_CONFIG: "serverName=laravel-api"
+        ports:
+            - "127.0.0.1:8080:8080"
+
+    mysql-api:
+        image: mysql:8.0
+        environment:
+            MYSQL_DATABASE: laravel_api
+            MYSQL_ROOT_PASSWORD: root
+            MYSQL_USER: laravel
+            MYSQL_PASSWORD: laravel
+        ports:
+            - "127.0.0.1:3307:3306"
+        volumes:
+            - dbdata:/var/lib/mysql
+
+    redis-api:
+        image: redis:7-alpine
+        ports:
+            - "127.0.0.1:6380:6379"
+
+    mailpit:
+        image: axllent/mailpit:latest
+        ports:
+            - "8025:8025"  # UI
+            - "1025:1025"  # SMTP
+    scheduler:
+        image: ${APP_IMAGE:-app-api}
+        command: php artisan schedule:work
+        restart: unless-stopped
+        depends_on:
+            - app-api
+        volumes:
+            - ./:/var/www/html
+
+volumes:
+    dbdata:
